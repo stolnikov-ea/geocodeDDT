@@ -16,7 +16,7 @@ from config.settings import (
 logger = logging.getLogger(__name__)
 
 class GeocoderClient:
-    def __init__(self):
+    def __init__(self) -> None:
         self.base_url = API_BASE_URL
         self.timeout = API_TIMEOUT
         self.min_interval = API_MIN_INTERVAL
@@ -26,11 +26,11 @@ class GeocoderClient:
         self._last_request_time = 0.0
         logger.info("GeocoderClient создан: %s", self.base_url)
 
-    def close(self):
+    def close(self) -> None:
         self.session.close()
         logger.info("GeocoderClient закрыт")
 
-    def _wait_if_needed(self):
+    def _wait_if_needed(self) -> None:
         now = time.monotonic()
         delta = now - self._last_request_time
 
@@ -77,7 +77,7 @@ class GeocoderClient:
 
         return response #type: ignore
 
-    def geocode(self, address: str):
+    def geocode(self, address: str) -> Dict[str, Any]:
         url = f"{self.base_url}/geocode/{address}"
         params = {"format": "json"}
 
@@ -106,7 +106,7 @@ class GeocoderClient:
             "body": body,
         }
 
-    def geocode_reverse(self, lat: float, lon: float):
+    def geocode_reverse(self, lat: float, lon: float) -> Dict[str, Any]:
         url = f"{self.base_url}/reverse"
         params = {
             "format": "json",
