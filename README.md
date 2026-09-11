@@ -1,6 +1,6 @@
 # GeocodeDDT
 
-Автотестоы публичного API геокодинга openstreetmaps.org
+Автотесты публичного API геокодинга openstreetmaps.org
 
 ## Установка
 
@@ -22,5 +22,5 @@ pip install -r requirements.txt
 ## Запуск
 
 ```bash
-python main.py
+pytest
 ```
