@@ -8,7 +8,7 @@ from src.geocoder_client import GeocoderClient
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(
-    level=getattr(logging, LOG_LEVEL, "INFO"),
+    level=getattr(logging, LOG_LEVEL),
     format = LOG_FORMAT,
 )
 

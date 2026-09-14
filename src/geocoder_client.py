@@ -11,20 +11,19 @@ from config.settings import (
     API_MIN_INTERVAL,
     API_RETRY_COUNT,
     API_RETRY_DELAY,
+    USER_EMAIL,
 )
 
 logger = logging.getLogger(__name__)
 
 class GeocoderClient:
     def __init__(self) -> None:
-        self.base_url = API_BASE_URL
-        self.timeout = API_TIMEOUT
-        self.min_interval = API_MIN_INTERVAL
-        self.retry_count = API_RETRY_COUNT
-        self.retry_delay = API_RETRY_DELAY
         self.session = requests.Session()
+
+        self.session.headers.update({"User-Agent": f"DDT_educational_project/1.0 (contact: {USER_EMAIL})"})
+
         self._last_request_time = 0.0
-        logger.info("GeocoderClient создан: %s", self.base_url)
+        logger.info("GeocoderClient создан: %s", API_BASE_URL)
 
     def close(self) -> None:
         self.session.close()
@@ -34,8 +33,8 @@ class GeocoderClient:
         now = time.monotonic()
         delta = now - self._last_request_time
 
-        if delta < self.min_interval:
-            wait = self.min_interval - delta
+        if delta < API_MIN_INTERVAL:
+            wait = API_MIN_INTERVAL - delta
             logger.debug("Жду %.1f секунд до следующего запроса", wait)
             time.sleep(wait)
 
@@ -45,41 +44,39 @@ class GeocoderClient:
         last_exception = None
         response = None
 
-        for attempt in range(1, self.retry_count + 1):
+        for attempt in range(1, API_RETRY_COUNT + 1):
             self._wait_if_needed()
 
             try:
-                response = self.session.get(
-                    url,
-                    params=params,
-                    timeout = self.timeout
-                )
+                response = self.session.get(url, params=params,timeout = API_TIMEOUT)
 
                 if response.status_code < 500:
                     return response
 
-                logger.warning(
-                    "Ошибка сервера: %d (попытка %d/%d)",
-                    response.status_code,
-                    attempt,
-                    self.retry_count,
-                )
+                else:
+                    logger.warning(
+                    "Ошибка сервера: %d (попытка %d/%d)",response.status_code, attempt, API_RETRY_COUNT)
+
             except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
-                logger.warning(
-                    "Сетевая ошибка: %s (попытка %d/%d)",
-                    e,
-                    attempt,
-                    self.retry_count,
-                )
+                logger.warning("Сетевая ошибка: %s (попытка %d/%d)", e, attempt, API_RETRY_COUNT)
                 last_exception = e
+
+            if attempt < API_RETRY_COUNT:
+                logger.debug("Ожидаю %d секунд перед повторной попыткой", API_RETRY_DELAY)
+                time.sleep(API_RETRY_DELAY)
+
         if last_exception:
             raise last_exception
 
         return response #type: ignore
 
     def geocode(self, address: str) -> Dict[str, Any]:
-        url = f"{self.base_url}/geocode/{address}"
-        params = {"format": "json"}
+        url = f"{API_BASE_URL}/search"
+        params = {
+            "q": address,
+            "format": "json",
+            "limit": 1,
+        }
 
         logger.debug("Запрос: url=%s, params=%s", url, params)
 
@@ -99,7 +96,7 @@ class GeocoderClient:
         if response.status_code >= 400:
             logger.warning("Ошибка клиента: адрес: %s статус: %d", address, response.status_code)
         else:
-            logger.info("Успех: %S [%d] (%.1fms)", address, response.status_code, elapsed_ms)
+            logger.info("Успех: %s [%d] (%.1fms)", address, response.status_code, elapsed_ms)
 
         return {
             "status_code": response.status_code,
@@ -107,11 +104,12 @@ class GeocoderClient:
         }
 
     def geocode_reverse(self, lat: float, lon: float) -> Dict[str, Any]:
-        url = f"{self.base_url}/reverse"
+        url = f"{API_BASE_URL}/reverse"
         params = {
             "format": "json",
             "lat": lat,
             "lon": lon,
+            "limit": 1,
         }
 
         start_time = time.monotonic()
