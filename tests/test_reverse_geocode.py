@@ -1,4 +1,5 @@
 import pytest
+import allure
 
 from utils.data_loader import load_data
 
@@ -26,8 +27,13 @@ IDS = [
     for row in REVERSE_DATA
 ]
 
+@allure.feature("Геокодирование")
+@allure.story("Обратное геокодирование")
 class TestReverseGeocode:
 
+    @allure.title("Проверка успешного ответа [200]")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.tag("api")
     @pytest.mark.parametrize(
         "lat, lon",
         SENT_PARAMS,
@@ -37,6 +43,9 @@ class TestReverseGeocode:
         result = client.geocode_reverse(lat, lon)
         assert result["status_code"] == 200
 
+    @allure.title("Проверка наличия адреса в ответе")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.tag("api")
     @pytest.mark.parametrize(
         "lat, lon",
         SENT_PARAMS,
@@ -46,6 +55,9 @@ class TestReverseGeocode:
         result = client.geocode_reverse(lat, lon)
         assert "display_name" in result["body"]
 
+    @allure.title("Проверка корректности адреса в ответе")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.tag("api")
     @pytest.mark.parametrize(
         "lat, lon, expected_address",
         ALL_PARAMS,

@@ -1,4 +1,5 @@
 import pytest
+import allure
 
 from utils.data_loader import load_data
 
@@ -17,6 +18,8 @@ ALL_PARAMS = [
 
 IDS = SENT_PARAMS
 
+@allure.feature("Геокодирование")
+@allure.story("Прямое геокодирование")
 class TestForwardGeocode:
 
     @staticmethod
@@ -27,6 +30,9 @@ class TestForwardGeocode:
         assert len(body) > 0, f'Адрес "{address}" не найден, список пуст'
         return body[0]
 
+    @allure.title("Проверка успешного ответа [200]")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.tag("api")
     @pytest.mark.parametrize(
         "address",
         SENT_PARAMS,
@@ -36,6 +42,9 @@ class TestForwardGeocode:
         result = client.geocode(address)
         assert result["status_code"] == 200
 
+    @allure.title("Проверка наличия координат в ответе")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.tag("api")
     @pytest.mark.parametrize(
         "address",
         SENT_PARAMS,
@@ -46,6 +55,9 @@ class TestForwardGeocode:
         assert "lat" in first_item
         assert "lon" in first_item
 
+    @allure.title("Проверка валидности значений координат")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.tag("api")
     @pytest.mark.parametrize(
         "address, expected_lat, expected_lon",
         ALL_PARAMS,
@@ -59,6 +71,9 @@ class TestForwardGeocode:
         assert -90 <= lat <= 90, f'Широта имеет невалидное значение: {lat}'
         assert -180 <= lon <= 180, f'Долгота имеет невалидное значение: {lon}'
 
+    @allure.title("Проверка соответствия значений координат ожидаемым")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.tag("api")
     @pytest.mark.parametrize(
         "address, expected_lat, expected_lon",
         ALL_PARAMS,

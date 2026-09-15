@@ -14,7 +14,8 @@ API_RETRY_DELAY = 5                                                     # тай
 API_MIN_INTERVAL = 1.0                                                  # минимальные интервал между запросами, сек. (минимум 1 секундла для Nominatim)
 
 #Пользовательские данные
-USER_EMAIL = "user_mail@mail.com"                                       # почта указывается по требованиям Nominatim
+USER_EMAIL = "unknown@mail.ru"                                   # почта указывается по требованиям Nominatim
+USER_NAME = "Unknown User"                                              # имя пользователя для отчета Allure
 
 # Логирование
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")                              # уровень логирования

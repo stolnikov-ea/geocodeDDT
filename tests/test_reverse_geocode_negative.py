@@ -1,4 +1,5 @@
 import pytest
+import allure
 
 from utils.data_loader import load_data
 
@@ -19,8 +20,13 @@ IDS = [
     for row in REVERSE_DATA_NEGATIVE
 ]
 
+@allure.feature("Геокодирование")
+@allure.story("Обратное геокодирование. Негативные")
 class TestReverseGeocodeNegative:
 
+    @allure.title("Проверка ответа на невалидный запрос")
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.tag("api")
     @pytest.mark.parametrize(
         "lat, lon, expected_status, expected_error",
         ALL_PARAMS,

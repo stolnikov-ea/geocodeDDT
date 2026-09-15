@@ -1,4 +1,5 @@
 import pytest
+import allure
 
 from utils.data_loader import load_data
 
@@ -15,8 +16,13 @@ ALL_PARAMS = [
 
 IDS = [row["address"] for row in FORWARD_DATA_NEGATIVE]
 
+@allure.feature("Геокодирование")
+@allure.story("Прямое геокодирование. Негативные")
 class TestForwardGeocodeNegative:
 
+    @allure.title("Проверка ответа на невалидный запрос")
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.tag("api")
     @pytest.mark.parametrize(
         "address, expected_status, expected_error",
         ALL_PARAMS,
