@@ -4,9 +4,9 @@ from utils.data_loader import load_data
 
 FORWARD_DATA = load_data("forward_geocode.csv")
 
-ADDRESS_PARAMS = [row["address"] for row in FORWARD_DATA]
-ADDRESS_IDS = ADDRESS_PARAMS
-COORDS_PARAMS = [
+SENT_PARAMS = [row["address"] for row in FORWARD_DATA]
+
+ALL_PARAMS = [
     (
         row["address"],
         row["expected_lat"],
@@ -14,6 +14,8 @@ COORDS_PARAMS = [
     )
     for row in FORWARD_DATA
 ]
+
+IDS = SENT_PARAMS
 
 class TestForwardGeocode:
 
@@ -27,8 +29,8 @@ class TestForwardGeocode:
 
     @pytest.mark.parametrize(
         "address",
-        ADDRESS_PARAMS,
-        ids = ADDRESS_IDS,
+        SENT_PARAMS,
+        ids = IDS,
     )
     def test_geocode_returns_200(self, client, address):
         result = client.geocode(address)
@@ -36,8 +38,8 @@ class TestForwardGeocode:
 
     @pytest.mark.parametrize(
         "address",
-        ADDRESS_PARAMS,
-        ids = ADDRESS_IDS,
+        SENT_PARAMS,
+        ids = IDS,
     )
     def test_geocode_returns_coordinates(self, client, address):
         first_item = self._get_first_result(client, address)
@@ -46,8 +48,8 @@ class TestForwardGeocode:
 
     @pytest.mark.parametrize(
         "address, expected_lat, expected_lon",
-        COORDS_PARAMS,
-        ids = ADDRESS_IDS,
+        ALL_PARAMS,
+        ids = IDS,
     )
 
     def test_geocode_coordinates_in_valid_range(self, client, address, expected_lat:float, expected_lon: float):
@@ -59,8 +61,8 @@ class TestForwardGeocode:
 
     @pytest.mark.parametrize(
         "address, expected_lat, expected_lon",
-        COORDS_PARAMS,
-        ids = ADDRESS_IDS,
+        ALL_PARAMS,
+        ids = IDS,
     )
 
     def test_geocode_coordinates_close_to_expected(self, client, address, expected_lat:float, expected_lon: float):

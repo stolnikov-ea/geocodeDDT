@@ -4,7 +4,7 @@ from utils.data_loader import load_data
 
 FORWARD_DATA_NEGATIVE = load_data("forward_geocode_negative.csv")
 
-NEGATIVE_PARAMS = [
+ALL_PARAMS = [
     (
         row["address"],
         row["expected_status"],
@@ -12,14 +12,15 @@ NEGATIVE_PARAMS = [
     )
     for row in FORWARD_DATA_NEGATIVE
 ]
-NEGATIVE_IDS = [row["address"] for row in FORWARD_DATA_NEGATIVE]
+
+IDS = [row["address"] for row in FORWARD_DATA_NEGATIVE]
 
 class TestForwardGeocodeNegative:
 
     @pytest.mark.parametrize(
         "address, expected_status, expected_error",
-        NEGATIVE_PARAMS,
-        ids=NEGATIVE_IDS,
+        ALL_PARAMS,
+        ids=IDS,
     )
     def test_forward_geocode_negative(self, client, address, expected_status, expected_error):
 
