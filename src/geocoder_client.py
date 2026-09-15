@@ -74,7 +74,7 @@ class GeocoderClient:
         url = f"{API_BASE_URL}/search"
         params = {
             "q": address,
-            "format": "json",
+            "format": "jsonv2",
             "limit": 1,
         }
 
@@ -106,10 +106,11 @@ class GeocoderClient:
     def geocode_reverse(self, lat: float, lon: float) -> Dict[str, Any]:
         url = f"{API_BASE_URL}/reverse"
         params = {
-            "format": "json",
+            "format": "jsonv2",
             "lat": lat,
             "lon": lon,
             "limit": 1,
+            "zoom": 18,
         }
 
         start_time = time.monotonic()
@@ -129,7 +130,6 @@ class GeocoderClient:
             logger.warning("Ошибка клиента: широта: %.4f долгота: %.4f статус: %d", lat, lon, response.status_code)
         else:
             logger.info("Успех: широта: %.4f долгота: %.4f [%d] (%.1fms)", lat, lon, response.status_code, elapsed_ms)
-
 
         return {
             "status_code": response.status_code,

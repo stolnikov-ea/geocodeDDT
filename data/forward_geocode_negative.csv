@@ -1,0 +1,4 @@
+address,expected_status,expected_error
+"",200,""
+"Случайный город, 999, Случайная улица",200,""
+ ,400,Nothing to search for.

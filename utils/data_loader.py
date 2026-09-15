@@ -15,19 +15,17 @@ def _convert_value(value: str) -> Any:
     if value is None:
         return ""
 
-    stripped = value.strip()
-
     try:
-        return float(stripped)
+        return float(value)
     except ValueError:
         pass
 
     try:
-        return int(stripped)
+        return int(value)
     except ValueError:
         pass
 
-    return stripped
+    return value
 
 def load_data(filename: str) -> List[Dict[str, str]]:
     filepath = DATA_DIR / filename

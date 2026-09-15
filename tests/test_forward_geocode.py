@@ -9,13 +9,11 @@ ADDRESS_IDS = ADDRESS_PARAMS
 COORDS_PARAMS = [
     (
         row["address"],
-        float(row["expected_lat"]),
-        float(row["expected_lon"]),
+        row["expected_lat"],
+        row["expected_lon"],
     )
     for row in FORWARD_DATA
 ]
-
-
 
 class TestForwardGeocode:
 
@@ -52,7 +50,7 @@ class TestForwardGeocode:
         ids = ADDRESS_IDS,
     )
 
-    def test_geocode_coordinates_in_valid_range(self, client, address, expected_lat, expected_lon):
+    def test_geocode_coordinates_in_valid_range(self, client, address, expected_lat:float, expected_lon: float):
         first_item = self._get_first_result(client, address)
         lat = float(first_item["lat"])
         lon = float(first_item["lon"])
@@ -65,7 +63,7 @@ class TestForwardGeocode:
         ids = ADDRESS_IDS,
     )
 
-    def test_geocode_coordinates_close_to_expected(self, client, address, expected_lat, expected_lon):
+    def test_geocode_coordinates_close_to_expected(self, client, address, expected_lat:float, expected_lon: float):
         first_item = self._get_first_result(client, address)
         lat = float(first_item["lat"])
         lon = float(first_item["lon"])
