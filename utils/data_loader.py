@@ -4,11 +4,30 @@
 import csv
 import logging
 from pathlib import Path
-from typing import List, Dict
+from typing import List, Dict, Any
 
 logger = logging.getLogger(__name__)
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+
+def _convert_value(value: str) -> Any:
+
+    if value is None:
+        return ""
+
+    stripped = value.strip()
+
+    try:
+        return float(stripped)
+    except ValueError:
+        pass
+
+    try:
+        return int(stripped)
+    except ValueError:
+        pass
+
+    return stripped
 
 def load_data(filename: str) -> List[Dict[str, str]]:
     filepath = DATA_DIR / filename
@@ -19,7 +38,7 @@ def load_data(filename: str) -> List[Dict[str, str]]:
         reader = csv.DictReader(f)
         loaded_data = [
             {
-                k.strip(): (v.strip() if v else "")
+                k.strip(): _convert_value(v)
                 for k, v in d.items()
             }
             for d in reader
