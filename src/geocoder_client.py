@@ -20,7 +20,10 @@ class GeocoderClient:
     def __init__(self) -> None:
         self.session = requests.Session()
 
-        self.session.headers.update({"User-Agent": f"DDT_educational_project/1.0 (contact: {USER_EMAIL})"})
+        self.session.headers.update({
+            "User-Agent": f"DDT_educational_project/1.0 (contact: {USER_EMAIL})",
+            "Accept-Language": "ru-RU",
+        })
 
         self._last_request_time = 0.0
         logger.info("GeocoderClient создан: %s", API_BASE_URL)
