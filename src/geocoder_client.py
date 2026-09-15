@@ -130,9 +130,9 @@ class GeocoderClient:
         )
 
         if response.status_code >= 400:
-            logger.warning("Ошибка клиента: широта: %.4f долгота: %.4f статус: %d", lat, lon, response.status_code)
+            logger.warning("Ошибка клиента: широта: %s долгота: %s статус: %d", lat, lon, response.status_code)
         else:
-            logger.info("Успех: широта: %.4f долгота: %.4f [%d] (%.1fms)", lat, lon, response.status_code, elapsed_ms)
+            logger.info("Успех: широта: %s долгота: %s [%d] (%.1fms)", lat, lon, response.status_code, elapsed_ms)
 
         return {
             "status_code": response.status_code,

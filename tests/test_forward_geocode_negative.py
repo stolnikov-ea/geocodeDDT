@@ -29,10 +29,14 @@ class TestForwardGeocodeNegative:
         assert result["status_code"] == expected_status
 
         body = result["body"]
+        actual_error = ""
 
         if isinstance(body, dict) and "error" in body:
-            actual_error = body["error"].get("message", "")
-        else:
-            actual_error = ""
+            error_data = body["error"]
+
+            if isinstance(error_data, dict) and "message" in error_data:
+                actual_error = body["error"].get("message", "")
+            elif isinstance(error_data, str):
+                actual_error = error_data
 
         assert actual_error == expected_error

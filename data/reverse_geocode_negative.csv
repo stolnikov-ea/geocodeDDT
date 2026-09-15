@@ -1,0 +1,4 @@
+lat,lon,expected_status,expected_error
+50,"",400,Parameter 'lon' must be a number.
+"",100,400,Parameter 'lat' must be a number.
+91,-181,200,Unable to geocode
