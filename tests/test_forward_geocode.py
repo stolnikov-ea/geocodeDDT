@@ -20,6 +20,8 @@ IDS = SENT_PARAMS
 
 @allure.feature("Геокодирование")
 @allure.story("Прямое геокодирование")
+@pytest.mark.forward
+@pytest.mark.positive
 class TestForwardGeocode:
 
     @staticmethod
@@ -38,7 +40,7 @@ class TestForwardGeocode:
         SENT_PARAMS,
         ids = IDS,
     )
-    def test_geocode_returns_200(self, client, address):
+    def test_geocode_returns_200(self, client, address: str):
         result = client.geocode(address)
         assert result["status_code"] == 200
 
@@ -50,7 +52,7 @@ class TestForwardGeocode:
         SENT_PARAMS,
         ids = IDS,
     )
-    def test_geocode_returns_coordinates(self, client, address):
+    def test_geocode_returns_coordinates(self, client, address: str):
         first_item = self._get_first_result(client, address)
         assert "lat" in first_item
         assert "lon" in first_item
@@ -64,7 +66,7 @@ class TestForwardGeocode:
         ids = IDS,
     )
 
-    def test_geocode_coordinates_in_valid_range(self, client, address, expected_lat:float, expected_lon: float):
+    def test_geocode_coordinates_in_valid_range(self, client, address: str, expected_lat:float, expected_lon: float):
         first_item = self._get_first_result(client, address)
         lat = float(first_item["lat"])
         lon = float(first_item["lon"])
@@ -80,12 +82,12 @@ class TestForwardGeocode:
         ids = IDS,
     )
 
-    def test_geocode_coordinates_close_to_expected(self, client, address, expected_lat:float, expected_lon: float):
+    def test_geocode_coordinates_close_to_expected(self, client, address: str, expected_lat:float, expected_lon: float):
         first_item = self._get_first_result(client, address)
         lat = float(first_item["lat"])
         lon = float(first_item["lon"])
 
         tolerance = 0.01
 
-        assert abs(lat - expected_lat) <= tolerance
-        assert abs(lon - expected_lon) <= tolerance
+        assert lat == pytest.approx(expected_lat, abs = tolerance)
+        assert lon == pytest.approx(expected_lon, abs = tolerance)

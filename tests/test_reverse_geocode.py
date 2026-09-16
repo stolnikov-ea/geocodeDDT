@@ -29,6 +29,8 @@ IDS = [
 
 @allure.feature("Геокодирование")
 @allure.story("Обратное геокодирование")
+@pytest.mark.reverse
+@pytest.mark.positive
 class TestReverseGeocode:
 
     @allure.title("Проверка успешного ответа [200]")
