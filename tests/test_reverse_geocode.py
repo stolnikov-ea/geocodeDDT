@@ -1,6 +1,5 @@
 import pytest
 import allure
-
 from utils.data_loader import load_data
 
 REVERSE_DATA = load_data("reverse_geocode.csv")
@@ -41,9 +40,12 @@ class TestReverseGeocode:
         SENT_PARAMS,
         ids = IDS,
     )
-    def test_reverse_geocode_returns_200(self, client, lat, lon):
-        result = client.geocode_reverse(lat, lon)
-        assert result["status_code"] == 200
+    def test_reverse_geocode_returns_200(self, client, lat: float, lon: float):
+        with allure.step(f"1. Отправляем запрос с широтой [{lat}] и долготой [{lon}]"):
+            result = client.geocode_reverse(lat, lon)
+
+        with allure.step("2. Проверяем, равен ли код ответа [200]"):
+            assert result["status_code"] == 200
 
     @allure.title("Проверка наличия адреса в ответе")
     @allure.severity(allure.severity_level.CRITICAL)
@@ -53,9 +55,11 @@ class TestReverseGeocode:
         SENT_PARAMS,
         ids=IDS,
     )
-    def test_reverse_geocode_returns_display_name(self, client, lat, lon):
-        result = client.geocode_reverse(lat, lon)
-        assert "display_name" in result["body"]
+    def test_reverse_geocode_returns_display_name(self, client, lat: float, lon: float):
+        with allure.step(f"1. Отправляем запрос с широтой [{lat}] и долготой [{lon}]"):
+            result = client.geocode_reverse(lat, lon)
+        with allure.step("2. Проверяем наличие адреса в ответе"):
+            assert "display_name" in result["body"]
 
     @allure.title("Проверка корректности адреса в ответе")
     @allure.severity(allure.severity_level.CRITICAL)
@@ -65,6 +69,9 @@ class TestReverseGeocode:
         ALL_PARAMS,
         ids = IDS,
     )
-    def test_reverse_geocode_returns_correct_display_name(self, client, lat, lon, expected_address):
-        result = client.geocode_reverse(lat, lon)
-        assert result["body"]["display_name"] == expected_address
+    def test_reverse_geocode_returns_correct_display_name(self, client, lat: float, lon: float, expected_address: str):
+        with allure.step(f"1. Отправляем запрос с широтой [{lat}] и долготой [{lon}]"):
+            result = client.geocode_reverse(lat, lon)
+
+        with allure.step(f"2. Проверяем, соответствует ли адрес в ответе ожидаемому: {expected_address}"):
+            assert result["body"]["display_name"] == expected_address
