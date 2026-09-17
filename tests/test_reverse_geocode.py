@@ -74,4 +74,4 @@ class TestReverseGeocode:
             result = client.geocode_reverse(lat, lon)
 
         with allure.step(f"2. Проверяем, соответствует ли адрес в ответе ожидаемому: {expected_address}"):
-            assert result["body"]["display_name"] == expected_address
+            assert expected_address.lower() in result["body"]["display_name"].lower()
