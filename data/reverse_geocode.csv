@@ -1,4 +1,4 @@
 lat,lon,expected_address
-59.9390433,30.3158163,"Александровская колонна, Дворцовая площадь"
-48.8582876,2.2944758,"5, Avenue Anatole France, Quartier du Gros-Caillou"
--33.8569081,151.2155448,"Joan Sutherland Theatre, Upper Podium"
+59.9390433,30.3158163,Александровская колонна
+48.8582876,2.2944758,Avenue Anatole France
+-33.8569081,151.2155448,Joan Sutherland Theatre
