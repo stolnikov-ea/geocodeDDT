@@ -28,13 +28,13 @@ IDS = [
 
 @allure.feature("Геокодирование")
 @allure.story("Обратное геокодирование")
+@pytest.mark.api
 @pytest.mark.reverse
 @pytest.mark.positive
-class TestReverseGeocode:
+class TestReverseGeocodeApi:
 
     @allure.title("Проверка успешного ответа [200]")
     @allure.severity(allure.severity_level.CRITICAL)
-    @allure.tag("api")
     @pytest.mark.parametrize(
         "lat, lon",
         SENT_PARAMS,
@@ -49,7 +49,6 @@ class TestReverseGeocode:
 
     @allure.title("Проверка наличия адреса в ответе")
     @allure.severity(allure.severity_level.CRITICAL)
-    @allure.tag("api")
     @pytest.mark.parametrize(
         "lat, lon",
         SENT_PARAMS,
@@ -63,7 +62,6 @@ class TestReverseGeocode:
 
     @allure.title("Проверка корректности адреса в ответе")
     @allure.severity(allure.severity_level.CRITICAL)
-    @allure.tag("api")
     @pytest.mark.parametrize(
         "lat, lon, expected_address",
         ALL_PARAMS,

@@ -17,13 +17,13 @@ IDS = [row["address"] for row in FORWARD_DATA_NEGATIVE]
 
 @allure.feature("Геокодирование")
 @allure.story("Прямое геокодирование. Негативные")
+@pytest.mark.api
 @pytest.mark.forward
 @pytest.mark.negative
-class TestForwardGeocodeNegative:
+class TestForwardGeocodeNegativeApi:
 
     @allure.title("Проверка ответа на невалидный запрос")
     @allure.severity(allure.severity_level.NORMAL)
-    @allure.tag("api")
     @pytest.mark.parametrize(
         "address, expected_status, expected_error",
         ALL_PARAMS,

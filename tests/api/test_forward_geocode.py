@@ -19,9 +19,10 @@ IDS = SENT_PARAMS
 
 @allure.feature("Геокодирование")
 @allure.story("Прямое геокодирование")
+@pytest.mark.api
 @pytest.mark.forward
 @pytest.mark.positive
-class TestForwardGeocode:
+class TestForwardGeocodeApi:
 
     @staticmethod
     def _get_first_result(client, address: str) -> dict:
@@ -35,7 +36,6 @@ class TestForwardGeocode:
 
     @allure.title("Проверка успешного ответа [200]")
     @allure.severity(allure.severity_level.CRITICAL)
-    @allure.tag("api")
     @pytest.mark.parametrize(
         "address",
         SENT_PARAMS,
@@ -50,7 +50,6 @@ class TestForwardGeocode:
 
     @allure.title("Проверка наличия координат в ответе")
     @allure.severity(allure.severity_level.CRITICAL)
-    @allure.tag("api")
     @pytest.mark.parametrize(
         "address",
         SENT_PARAMS,
@@ -68,7 +67,6 @@ class TestForwardGeocode:
 
     @allure.title("Проверка валидности значений координат")
     @allure.severity(allure.severity_level.CRITICAL)
-    @allure.tag("api")
     @pytest.mark.parametrize(
         "address, expected_lat, expected_lon",
         ALL_PARAMS,
@@ -91,7 +89,6 @@ class TestForwardGeocode:
 
     @allure.title("Проверка соответствия значений координат ожидаемым")
     @allure.severity(allure.severity_level.CRITICAL)
-    @allure.tag("api")
     @pytest.mark.parametrize(
         "address, expected_lat, expected_lon",
         ALL_PARAMS,

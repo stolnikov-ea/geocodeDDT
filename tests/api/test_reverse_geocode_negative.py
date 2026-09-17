@@ -21,13 +21,13 @@ IDS = [
 
 @allure.feature("Геокодирование")
 @allure.story("Обратное геокодирование. Негативные")
+@pytest.mark.api
 @pytest.mark.reverse
 @pytest.mark.negative
-class TestReverseGeocodeNegative:
+class TestReverseGeocodeNegativeApi:
 
     @allure.title("Проверка ответа на невалидный запрос")
     @allure.severity(allure.severity_level.NORMAL)
-    @allure.tag("api")
     @pytest.mark.parametrize(
         "lat, lon, expected_status, expected_error",
         ALL_PARAMS,
