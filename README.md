@@ -13,7 +13,6 @@
 
 ## Установка
 
-```bash
 1. Клонируйте репозиторий:
 ```bash
 git clone https://github.com/stolnikov-ea/geocodeDDT.git
