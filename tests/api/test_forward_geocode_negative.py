@@ -15,7 +15,7 @@ ALL_PARAMS = [
 
 IDS = [row["address"] for row in FORWARD_DATA_NEGATIVE]
 
-@allure.feature("Геокодирование")
+@allure.feature("Геокодирование [API]")
 @allure.story("Прямое геокодирование. Негативные")
 @pytest.mark.api
 @pytest.mark.forward

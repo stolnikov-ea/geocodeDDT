@@ -26,7 +26,7 @@ IDS = [
     for row in REVERSE_DATA
 ]
 
-@allure.feature("Геокодирование")
+@allure.feature("Геокодирование [API]")
 @allure.story("Обратное геокодирование")
 @pytest.mark.api
 @pytest.mark.reverse

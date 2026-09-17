@@ -19,13 +19,14 @@ ALL_PARAMS = [
 IDS = [row["address"] for row in FORWARD_DATA]
 
 @pytest.mark.ui
-@allure.feature("Геокодирование")
+@allure.feature("Геокодирование [UI]")
 @allure.story("Прямое геокодирование")
 @pytest.mark.ui
 @pytest.mark.forward
 @pytest.mark.positive
 class TestForwardGeocodeUi:
-
+    @allure.title("Проверка корректности координат при прямом геокодировании")
+    @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.parametrize(
         "address, expected_lat, expected_lon",
         ALL_PARAMS,

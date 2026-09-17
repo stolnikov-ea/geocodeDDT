@@ -17,7 +17,7 @@ ALL_PARAMS = [
 
 IDS = SENT_PARAMS
 
-@allure.feature("Геокодирование")
+@allure.feature("Геокодирование [API]")
 @allure.story("Прямое геокодирование")
 @pytest.mark.api
 @pytest.mark.forward
