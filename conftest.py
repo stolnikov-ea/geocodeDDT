@@ -1,9 +1,10 @@
 import logging
+import traceback
+import allure
 from pathlib import Path
 from datetime import datetime
 
 from config.settings import USER_NAME, LOG_LEVEL, LOG_FORMAT
-from src.geocoder_client import GeocoderClient
 
 logging.basicConfig(
     level = getattr(logging, LOG_LEVEL),
@@ -21,3 +22,18 @@ def pytest_configure(config):
             f.write(f"Дата_запуска: {now}\n")
             f.write(f"Пользователь: {USER_NAME}\n")
             f.write(f"Проект: geocodeDDT\n")
+
+def pytest_exception_interact(node, call, report):
+    if call.excinfo is not None:
+        error_log = (
+            f"Тест: {node.nodeid}\n"
+            f"Тип ошибки: {call.excinfo.type.__name__}\n"
+            f"Сообщение: {str(call.excinfo.value)}\n"
+            f"STACK TRACE:\n{traceback.format_exc()}"
+        )
+
+        allure.attach(
+            body = error_log,
+            name = "Информация об ошибке",
+            attachment_type = allure.attachment_type.TEXT,
+        )
