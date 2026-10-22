@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_data>
+    <cases type="positive">
+        <case>
+            <address>Москва, 1, Ленинские горы</address>
+            <expected_lat>55.7029101</expected_lat>
+            <expected_lon>37.5307556</expected_lon>
+        </case>
+        <case>
+            <address>Санкт-Петербург, 56, Невский проспект</address>
+            <expected_lat>59.9344141</expected_lat>
+            <expected_lon>30.337808</expected_lon>
+        </case>
+        <case>
+            <address>Париж, 75008, Площадь Шарль де Голл</address>
+            <expected_lat>48.8742463</expected_lat>
+            <expected_lon>2.2956616</expected_lon>
+        </case>
+    </cases>
+    <cases type="negative">
+        <case>
+            <address></address>
+            <expected_status>200</expected_status>
+            <expected_error></expected_error>
+        </case>
+        <case>
+            <address>Случайный город, 999, Случайная улица</address>
+            <expected_status>200</expected_status>
+            <expected_error></expected_error>
+        </case>
+        <case>
+            <address> </address>
+            <expected_status>400</expected_status>
+            <expected_error>Nothing to search for.</expected_error>
+        </case>
+    </cases>
+</test_data>

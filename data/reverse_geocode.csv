@@ -1,4 +1,7 @@
-lat,lon,expected_address
-59.9390433,30.3158163,Александровская колонна
-48.8585238,2.2939989,Эйфелева башня
--33.8569081,151.2155448,Joan Sutherland Theatre
+type,lat,lon,expected_address,expected_status,expected_error
+positive,59.9390433,30.3158163,Александровская колонна,"",""
+positive,48.8585238,2.2939989,Эйфелева башня,"",""
+positive,-33.8569081,151.2155448,Joan Sutherland Theatre,"",""
+negative,50,"","",400,Parameter 'lon' must be a number.
+negative,"",100,"",400,Parameter 'lat' must be a number.
+negative,91,-181,"",200,Unable to geocode

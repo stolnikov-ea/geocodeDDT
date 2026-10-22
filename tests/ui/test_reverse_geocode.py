@@ -1,22 +1,22 @@
 import pytest
 import allure
-from utils.data_loader import load_data
+from utils.data_loader import load_data_xml
 from src.ui_pages import GeocoderUI
 
-REVERSE_DATA = load_data("reverse_geocode.csv")
+DATA = load_data_xml("reverse_geocode.xml")
 
-ALL_PARAMS = [
+POSITIVE_PARAMS = [
     (
         row["lat"],
         row["lon"],
         row["expected_address"],
     )
-    for row in REVERSE_DATA
+    for row in DATA["positive"]
 ]
 
-IDS = [
+POSITIVE_IDS = [
     f'Широта: {row["lat"]} Долгота: {row["lon"]}'
-    for row in REVERSE_DATA
+    for row in DATA["positive"]
 ]
 
 @pytest.mark.ui
@@ -31,8 +31,8 @@ class TestReverseGeocodeUi:
     @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.parametrize(
         "lat, lon, expected_address",
-        ALL_PARAMS,
-        ids=IDS,
+        POSITIVE_PARAMS,
+        ids = POSITIVE_IDS,
     )
     def test_reverse_geocode_search_max_zoom(self, driver, lat: float, lon: float, expected_address: str):
         ui = GeocoderUI(driver)

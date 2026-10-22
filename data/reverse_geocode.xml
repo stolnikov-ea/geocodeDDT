@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_data>
+    <cases type="positive">
+        <case>
+            <lat>59.9390433</lat>
+            <lon>30.3158163</lon>
+            <expected_address>Александровская колонна</expected_address>
+        </case>
+        <case>
+            <lat>48.8585238</lat>
+            <lon>2.2939989</lon>
+            <expected_address>Эйфелева башня</expected_address>
+        </case>
+        <case>
+            <lat>-33.8569081</lat>
+            <lon>151.2155448</lon>
+            <expected_address>Joan Sutherland Theatre</expected_address>
+        </case>
+    </cases>
+    <cases type="negative">
+        <case>
+            <lat>50</lat>
+            <lon></lon>
+            <expected_status>400</expected_status>
+            <expected_error>Parameter 'lon' must be a number.</expected_error>
+        </case>
+        <case>
+            <lat></lat>
+            <lon>100</lon>
+            <expected_status>400</expected_status>
+            <expected_error>Parameter 'lat' must be a number.</expected_error>
+        </case>
+        <case>
+            <lat>91</lat>
+            <lon>-181</lon>
+            <expected_status>200</expected_status>
+            <expected_error>Unable to geocode</expected_error>
+        </case>
+    </cases>
+</test_data>

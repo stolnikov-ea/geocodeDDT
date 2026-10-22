@@ -1,20 +1,20 @@
 import pytest
 import allure
-from utils.data_loader import load_data
+from utils.data_loader import load_data_xml
 from src.ui_pages import GeocoderUI
 
-FORWARD_DATA = load_data("forward_geocode.csv")
+DATA = load_data_xml("forward_geocode.xml")
 
-ALL_PARAMS = [
+POSITIVE_PARAMS = [
     (
         row["address"],
         row["expected_lat"],
         row["expected_lon"],
     )
-    for row in FORWARD_DATA
+    for row in DATA["positive"]
 ]
 
-IDS = [row["address"] for row in FORWARD_DATA]
+POSITIVE_IDS = [row["address"] for row in DATA["positive"]]
 
 @pytest.mark.ui
 @allure.feature("Геокодирование [UI]")
@@ -27,8 +27,8 @@ class TestForwardGeocodeUi:
     @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.parametrize(
         "address, expected_lat, expected_lon",
-        ALL_PARAMS,
-        ids = IDS,
+        POSITIVE_PARAMS,
+        ids = POSITIVE_IDS,
     )
     def test_forward_geocode_simple_search(self, driver, address: str, expected_lat: float, expected_lon: float):
         ui = GeocoderUI(driver)

@@ -2,6 +2,7 @@
 Загрузка данных из файлов
 """
 import csv
+import xml.etree.ElementTree as ET
 import logging
 from pathlib import Path
 from typing import List, Dict, Any
@@ -27,14 +28,13 @@ def _convert_value(value: str) -> Any:
 
     return value
 
-def load_data(filename: str) -> List[Dict[str, str]]:
+def load_data_csv(filename: str) -> Dict[str, List[Dict[str, Any]]]:
     filepath = DATA_DIR / filename
-
     logger.debug("Загружаю CSV-файл: %s", filepath)
 
-    with open(DATA_DIR / filename, newline = "", encoding = "utf_8_sig") as f:
+    with open(filepath, newline="", encoding="utf_8_sig") as f:
         reader = csv.DictReader(f)
-        loaded_data = [
+        rows = [
             {
                 k.strip(): _convert_value(v)
                 for k, v in d.items()
@@ -42,6 +42,33 @@ def load_data(filename: str) -> List[Dict[str, str]]:
             for d in reader
         ]
 
-    logger.info("CSV-файл загружен: %s, строк: %d", filepath, len(loaded_data))
+    result: Dict[str, List[Dict[str, Any]]] = {"positive": [], "negative": []}
+    for row in rows:
+        case_type = str(row.pop("type", "positive"))
+        result[case_type].append(row)
 
-    return loaded_data
+    logger.info("CSV-файл загружен: %s, positive: %d, negative: %d",
+                filepath, len(result["positive"]), len(result["negative"]))
+    return result
+
+def load_data_xml(filename: str) -> Dict[str, List[Dict[str, Any]]]:
+    filepath = DATA_DIR / filename
+
+    logger.debug("Загружаю XML-файл: %s", filepath)
+
+    tree = ET.parse(filepath)
+    root = tree.getroot()
+
+    result: Dict[str, List[Dict[str, Any]]] = {"positive": [], "negative": []}
+
+    for cases in root.findall("cases"):
+        case_type: str = cases.get("type") or "positive"
+        for case in cases.findall("case"):
+            item: Dict[str, Any] = {}
+            for child in case:
+                item[child.tag] = _convert_value(child.text or "")
+            result[case_type].append(item)
+
+    logger.info("XML-файл загружен: %s, positive: %d, negative: %d",
+                filepath, len(result["positive"]), len(result["negative"]))
+    return result
