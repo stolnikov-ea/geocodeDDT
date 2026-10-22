@@ -33,5 +33,15 @@
             <expected_status>400</expected_status>
             <expected_error>Nothing to search for.</expected_error>
         </case>
+        <case>
+            <address>12345</address>
+            <expected_status>200</expected_status>
+            <expected_error></expected_error>
+        </case>
+        <case>
+            <address>' OR 1=1 --</address>
+            <expected_status>200</expected_status>
+            <expected_error></expected_error>
+        </case>
     </cases>
 </test_data>

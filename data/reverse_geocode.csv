@@ -5,3 +5,6 @@ positive,-33.8569081,151.2155448,Joan Sutherland Theatre,"",""
 negative,50,"","",400,Parameter 'lon' must be a number.
 negative,"",100,"",400,Parameter 'lat' must be a number.
 negative,91,-181,"",200,Unable to geocode
+negative,0,0,"",200,Unable to geocode
+negative,abc,90,"",400,Parameter 'lat' must be a number.
+negative,50,abc,"",400,Parameter 'lon' must be a number.

@@ -36,5 +36,23 @@
             <expected_status>200</expected_status>
             <expected_error>Unable to geocode</expected_error>
         </case>
+        <case>
+            <lat>0</lat>
+            <lon>0</lon>
+            <expected_status>200</expected_status>
+            <expected_error>Unable to geocode</expected_error>
+        </case>
+        <case>
+            <lat>abc</lat>
+            <lon>90</lon>
+            <expected_status>400</expected_status>
+            <expected_error>Parameter 'lat' must be a number.</expected_error>
+        </case>
+        <case>
+            <lat>50</lat>
+            <lon>abc</lon>
+            <expected_status>400</expected_status>
+            <expected_error>Parameter 'lon' must be a number.</expected_error>
+        </case>
     </cases>
 </test_data>
